@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Game" BaseTypeListCollapsed="true">
+    <Position X="5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAEggAgAEgAAACAAAAAgAQAAAiBAAEAgAgKAAA=</HashCode>
+      <FileName>Game.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="GameBoard">
+    <Position X="7.25" Y="1.25" Width="1.5" />
+    <NestedTypes>
+      <Class Name="GameBoard.Node" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>GameBoard.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAgAQAAAAAAAAFAMAASAAAAAAAABAAAQQAAAAAgIAAA=</HashCode>
+      <FileName>GameBoard.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BoardIterator">
+    <Position X="10.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAEAAAABACAAACAAAAAAAAAAACAIAAAAAAAAAA=</HashCode>
+      <FileName>Patterns\Iterator\BoardIterator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameMemento">
+    <Position X="12.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Patterns\Memento\GameMemento.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="IGame">
+    <Position X="3" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAEAACAAAAAAAAAAAAAAAAAAAgIAAA=</HashCode>
+      <FileName>IGame.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="GameResult">
+    <Position X="9" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQCAAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>GameBoard.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
