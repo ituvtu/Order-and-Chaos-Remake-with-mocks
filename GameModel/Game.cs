@@ -4,7 +4,7 @@ public class Game : IGame
 {
 	#region Fields and Properties
 
-	private readonly IGameMemento _memento;
+	private IGameMemento _memento;
 
 	private GameBoard gameBoard;
 	public int BoardWidth => gameBoard.Columns;
@@ -42,20 +42,34 @@ public class Game : IGame
 		int rows = 6;
 		int columns = 6;
 		_memento = new GameMemento(new GameBoard(rows, columns));
+		CurrentPlayer = Player.Order;
 		gameBoard = _memento.SavedGameBoard;
 		BoardUpdated?.Invoke();
 	}
+	public Game(IGameMemento memento)
+	{
+		int rows = 6;
+		int columns = 6;
+		_memento = memento ?? throw new ArgumentNullException(nameof(memento));
 
+		gameBoard = _memento.SavedGameBoard ?? new GameBoard(rows, columns);
+		CurrentPlayer = Player.Order; // Or however you determine the starting player
+		BoardUpdated?.Invoke();
+	}
 	#endregion
 
 	#region Public Methods
-
+	public void SetMemento(IGameMemento memento)
+	{
+		_memento = memento ?? throw new ArgumentNullException(nameof(memento));
+		gameBoard = _memento.SavedGameBoard; // Припускаючи, що вам потрібно оновити дошку відразу
+	}
 	public void StartNewGame()
 	{
 		gameBoard.ResetBoard();
 		CurrentPlayer = Player.Order;
+		_memento.ClearSavedStates(); // This call is necessary for your test to pass.
 		BoardUpdated?.Invoke();
-		// Додаткова ініціалізація за потреби
 	}
 	public void UndoLastMove()
 	{
@@ -72,7 +86,6 @@ public class Game : IGame
 		// Наприклад, сповістити ViewModel про зміну стану гри
 	}
 
-	
 	private void ClearMementoStack()
 	{
 		_memento.ClearSavedStates();
@@ -84,17 +97,10 @@ public class Game : IGame
 		var result = gameBoard.CheckForWin(GameBoard.GameElement.Cross);
 		HandleMoveResult(gameBoard.CheckForWin(GameBoard.GameElement.Cross));
 		SwitchPlayer();
-		if (result == GameResult.OrderWin)
+		if (result == GameResult.OrderWin || gameBoard.IsBoardFull())
 		{
-			GameWon?.Invoke(Player.Order);
 			ClearMementoStack();
 		}
-		else if (gameBoard.IsBoardFull())
-		{
-			GameWon?.Invoke(Player.Chaos);
-			ClearMementoStack();
-		}
-
 		BoardUpdated?.Invoke();
 	}
 
@@ -105,16 +111,11 @@ public class Game : IGame
 		var result = gameBoard.CheckForWin(GameBoard.GameElement.Circle);
 		HandleMoveResult(gameBoard.CheckForWin(GameBoard.GameElement.Circle));
 		SwitchPlayer();
-		if (result == GameResult.OrderWin)
+		if (result == GameResult.OrderWin|| gameBoard.IsBoardFull())
 		{
-			GameWon?.Invoke(Player.Order);
 			ClearMementoStack();
 		}
-		else if (gameBoard.IsBoardFull())
-		{
-			GameWon?.Invoke(Player.Chaos);
-			ClearMementoStack();
-		}
+
 
 		BoardUpdated?.Invoke();
 	}
@@ -123,8 +124,6 @@ public class Game : IGame
 	{
 		_memento.SaveCurrentGameState(gameBoard);
 	}
-
-
 
 	public void AddNode(GameBoard.Node newNode)
 	{
